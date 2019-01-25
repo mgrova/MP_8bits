@@ -46,7 +46,7 @@ signal CCR_in,CCR: std_logic_vector(3 downto 0);
 
 begin  
   -- Instruction Register  
-  process(clock,reset)  
+  INSTRUCTION_REGISTER: process(clock,reset)  
   begin  
   	if(reset='0') then  
     	   IR_Reg <= x"00";  
@@ -59,7 +59,7 @@ begin
    IR <= IR_Reg; 
  
   -- MAR Register  
-  process(clock,reset)  
+  MEMORY_ADDRESS_REGISTER: process(clock,reset)  
   begin  
   	if(reset='0') then  
            MAR <= x"00";  
@@ -72,7 +72,7 @@ begin
    address <= MAR;  
           
    -- PC  
-   process(clock,reset)  
+   PROGRAM_COUNTER: process(clock,reset)  
    begin  
    	if(reset='0') then  
            PC <= x"00";  
@@ -86,7 +86,7 @@ begin
    end process;  
 
    -- A register  
-   process(clock,reset)  
+   B_REGISTER: process(clock,reset)  
    begin  
    	if(reset='0') then  
            A_Reg <= x"00";  
@@ -98,7 +98,7 @@ begin
         end if;  
     end process;  
     -- B register  
-    process(clock,reset)  
+    A_REGISTER: process(clock,reset)  
     begin  
            if(reset='0') then  
                 B_Reg <= x"00";  
@@ -120,7 +120,7 @@ begin
       );  
       
       --- CCR Register  
-      process(clock,reset)  
+      CONDITIONAL_CODE_REGISTER: process(clock,reset)  
       begin  
            if(reset='0') then  
               CCR <= x"0";  
@@ -132,12 +132,16 @@ begin
       end process;  
       CCR_Result <= CCR;  
       
+  
+--Bus2 is used as the input to the IR, MAR, PC, A, and B registers. Bus2 can be driven by the from_memory 
+--port of the CPU to allow the memory system to provide data for the CPU registers.
       ---- MUX BUS2  
       BUS2 <= ALU_Result   when Bus2_Sel = "00" else  
               BUS1         when Bus2_Sel = "01" else  
               from_memory  when Bus2_Sel = "10" else  
                      		x"00";  
-      
+--Bus1 is used as the destination of the PC, A,and B register outputs. Bus1 is connected 
+--directly to the to_memory port of the CPU to allow registers to write data to the memory system.      
       --- MUX BUS1  
       BUS1 <=  PC      when Bus1_Sel = "00" else  
                A_Reg   when Bus1_Sel = "01" else  

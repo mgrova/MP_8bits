@@ -82,7 +82,7 @@ begin
                  next_state <= S_DATA_MAN_4;  
               elsif(BRANCH_OP='1') then  
                  next_state <= S_BRANCH_4;  
-           end if;  
+              end if;  
 
 	   -- -- LOAD AND STORE INSTRUCTIONS:  
            when S_LOAD_AND_STORE_4 =>  
@@ -115,32 +115,32 @@ begin
                  MAR_Load <= '1';            
                  next_state <= S_LOAD_AND_STORE_7;  
               elsif(IR=x"88")then -- LOAD IMMEDIATE B  
-                  Bus2_Sel <= "10";  
-                  B_Load <= '1';  
-                  next_state <= S_FETCH_0;       
+                 Bus2_Sel <= "10";  
+                 B_Load <= '1';  
+                 next_state <= S_FETCH_0;       
               elsif(IR = x"96" or IR = x"97")then  
-                  Bus2_Sel <= "10";  
-                  MAR_Load <= '1';            
-                  next_state <= S_LOAD_AND_STORE_7;                           
+                 Bus2_Sel <= "10";  
+                 MAR_Load <= '1';            
+                 next_state <= S_LOAD_AND_STORE_7;                           
               end if;  
        
 	   when S_LOAD_AND_STORE_7 =>  
               if(IR=x"87") then  
-                  Bus2_Sel <= "10";  
-                  A_Load <= '1';            
-                  next_state <= S_FETCH_0;  
+                 Bus2_Sel <= "10";  
+                 A_Load <= '1';            
+                 next_state <= S_FETCH_0;  
               elsif(IR=x"89") then  
-                  Bus2_Sel <= "10";  
-                  B_Load <= '1';            
-                  next_state <= S_FETCH_0;       
+                 Bus2_Sel <= "10";  
+                 B_Load <= '1';            
+                 next_state <= S_FETCH_0;       
               elsif(IR=x"96") then  
-                  write <= '1';  
-                  Bus1_Sel <= "01";  
-                  next_state <= S_FETCH_0;  
+                 write <= '1';  
+                 Bus1_Sel <= "01";  
+                 next_state <= S_FETCH_0;  
              elsif(IR=x"97") then  
-                  write <= '1';  
-                  Bus1_Sel <= "10";  
-                  next_state <= S_FETCH_0;  
+                 write <= '1';  
+                 Bus1_Sel <= "10";  
+                 next_state <= S_FETCH_0;  
              end if;  
     
           -- -- DATA MANIPULATION INSTRUCTIONS:  
@@ -255,7 +255,7 @@ begin
          end case;  
       end process;  
   
--- Option code to manage buses and signals
+-- Option code to manage the next state to decode (S_DECODE_3)
    LOAD_STORE_OP <= '1' when IR = x"86" else  
                     '1' when IR = x"87" else  
                     '1' when IR = x"88" else  
