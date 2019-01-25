@@ -18,7 +18,7 @@ end process;
 
 memory : process (clock)
 begin
-	if (clock’event and clock=’1’) then
+	if (rising_edge(clock)) then
 	  if (EN=’1’ and write=’1’) then
 		RW(to_integer(unsigned(address))) <= data_in;
 	  elsif (EN=’1’ and write=’0’) then

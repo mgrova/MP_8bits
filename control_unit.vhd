@@ -39,7 +39,7 @@ begin
       begin  
            if(reset='0') then  
                 current_state <= S_FETCH_0;  
-           elsif(clock’event and clock=’1’) then  
+           elsif(rising_edge(clock)) then  
                 current_state <= next_state;  
            end if;  
       end process;

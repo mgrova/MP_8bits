@@ -50,7 +50,7 @@ begin
   begin  
   	if(reset='0') then  
     	   IR_Reg <= x"00";  
-        elsif(clock’event and clock=’1’) then  
+        elsif(rising_edge(clock)) then  
           if(IR_Load='1') then  
              IR_Reg <= BUS2;  
           end if;  
@@ -63,7 +63,7 @@ begin
   begin  
   	if(reset='0') then  
            MAR <= x"00";  
-        elsif(clock’event and clock=’1’) then  
+        elsif(rising_edge(clock)) then  
           if(MAR_Load='1') then  
              MAR <= BUS2;  
           end if;  
@@ -76,7 +76,7 @@ begin
    begin  
    	if(reset='0') then  
            PC <= x"00";  
-        elsif(clock’event and clock=’1’) then  
+        elsif(rising_edge(clock)) then  
           if(PC_Load='1') then  
              PC <= BUS2;  
           elsif(PC_Inc='1') then  
@@ -91,7 +91,7 @@ begin
    	if(reset='0') then  
            A_Reg <= x"00";  
 	-- rising edge
-        elsif(clock’event and clock=’1’) then  
+        elsif(rising_edge(clock)) then  
            if(A_Load='1') then  
                A_Reg <= BUS2;  
             end if;  
@@ -102,7 +102,7 @@ begin
     begin  
            if(reset='0') then  
                 B_Reg <= x"00";  
-           elsif(clock’event and clock=’1’) then  
+           elsif(rising_edge(clock)) then  
                 if(B_Load='1') then  
                    B_Reg <= BUS2;  
                 end if;  
@@ -124,7 +124,7 @@ begin
       begin  
            if(reset='0') then  
               CCR <= x"0";  
-           elsif(clock’event and clock=’1’) then  
+           elsif(rising_edge(clock)) then  
              if(CCR_Load='1') then  
               CCR <= CCR_in;  
              end if;  
