@@ -14,7 +14,7 @@ constant ROM : rom_type := (0=> LDA_IMM,
 
 -- The second step is to create an internal enable line that will only allow assignments from
 -- ROM to data_out when a valid address is entered. create an internal enable (EN) that will 
---only be asserted when the address falls within the valid program memory range of 0–127:
+-- only be asserted when the address falls within the valid program memory range of 0–127:
 enable : process (address)
 begin
 	if ((to_integer(unsigned(address)) >= 0) and
