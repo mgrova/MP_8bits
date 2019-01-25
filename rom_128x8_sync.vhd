@@ -1,3 +1,5 @@
+library IEEE;  
+use IEEE.STD_LOGIC_1164.ALL; 
 --
 -- The program  perform a load, store, and a branch always. 
 -- This program will continually write x”AA” to port_out_00:

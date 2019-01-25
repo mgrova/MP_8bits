@@ -148,7 +148,7 @@ architecture Behavioral of memory is
 		                  port_out_15 => port_out_15  
 		             );  
 
-	      --- Multiplexer Output  
+	      --- Multiplexer Output for manage input ports
 	      data_out <= rom_out when address < x"80" else  
 		          ram_out when address < x"E0" else  
 		       port_in_00 when address = x"F0" else  

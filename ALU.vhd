@@ -70,4 +70,4 @@ architecture Behavioral of ALU is
 		     '0' when others;  
 		
 	NZVC <= N & Z & V & C;  
- end Behavioral;  
+end Behavioral;  

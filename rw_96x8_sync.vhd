@@ -1,3 +1,5 @@
+library IEEE;  
+use IEEE.STD_LOGIC_1164.ALL; 
 --
 -- This code model the local enable and signal assignments for the R/W memory
 --
