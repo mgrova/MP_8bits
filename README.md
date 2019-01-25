@@ -1,4 +1,4 @@
-# 8 BITS MICROPROCESSOR IN VHDL
+# 8-BIT MICROCONTROLLER IN VHDL
 Instruction set and architecture of the 8-bit microcontroller are available at Chapter 13 in the book "Introduction to Logic Circuits and Logic Design with VHDL" by prof. Brock J. LaMeres.
 
 Part of code is from:
