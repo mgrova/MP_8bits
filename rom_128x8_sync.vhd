@@ -1,12 +1,15 @@
-library IEEE;  
-use IEEE.STD_LOGIC_1164.ALL; 
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.NUMERIC_STD.all;
 
-entity rom_128x8_sync is 
-port( 
-	address: in std_logic_vector(6 downto 0);  
-	data_out: out std_logic_vector(7 downto 0);  
-	clock: in std_logic  
-      );  	
+-- Submodule VHDL code: ROM
+entity rom_128x8_sync is
+port(
+	address: in std_logic_vector(6 downto 0);
+	data_out: out std_logic_vector(7 downto 0);
+	clock: in std_logic
+);
+end rom_128x8_sync;
 
 architecture Behavioral of rom_128x8_sync is
 
@@ -37,7 +40,7 @@ constant BVC    : std_logic_vector (7 downto 0) := x"26";
 constant BCS    : std_logic_vector (7 downto 0) := x"27";
 constant BCC    : std_logic_vector (7 downto 0) := x"28";
 
--- The program  perform a load, store, and a branch always. 
+-- The program  perform a load, store, and a branch always.
 -- This program will continually write x”AA” to port_out_00:
 type rom_type is array (0 to 127) of std_logic_vector(7 downto 0);
 constant ROM : rom_type := (0=> LDA_IMM,
@@ -50,29 +53,30 @@ constant ROM : rom_type := (0=> LDA_IMM,
 
 
 -- FALTA DECLARAR LAS SEÑALES INTERNAS !!
+signal EN: std_logic;
 
 begin
 -- The second step is to create an internal enable line that will only allow assignments from
--- ROM to data_out when a valid address is entered. create an internal enable (EN) that will 
+-- ROM to data_out when a valid address is entered. create an internal enable (EN) that will
 -- only be asserted when the address falls within the valid program memory range of 0–127:
 ENABLE: process (address)
 begin
 	if ((to_integer(unsigned(address)) >= 0) and
 	(to_integer(unsigned(address)) <= 127)) then
-		EN <= ’1’;
+		EN <= '1';
 	else
-		EN <= ’0’;
+		EN <= '0';
 	end if;
 end process;
 
 
--- This enable line can now be used in the behavioral model for 
+-- This enable line can now be used in the behavioral model for
 -- the ROM process as follows:
-MEMORY: process (clock)
+MEMORY: process (clock,EN)
 begin
 	if (rising_edge(clock)) then
-		if (EN=’1’) then
-			data_out <= ROM(to_integer(unsigned(address)));	
+		if (EN='1') then
+			data_out <= ROM(to_integer(unsigned(address)));
 		end if;
 	end if;
 end process;
