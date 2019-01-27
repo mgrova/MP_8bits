@@ -6,9 +6,9 @@ use IEEE.NUMERIC_STD.all;
 --
 entity rw_96x8_sync is
 port(
-	address: in std_logic_vector(6 downto 0);
+	address: in std_logic_vector(7 downto 0);
 	data_in: in std_logic_vector(7 downto 0);
-	write: in std_logic;
+	write_en: in std_logic;
 	clock: in std_logic;
 	data_out: out std_logic_vector(7 downto 0)
 );
@@ -32,12 +32,12 @@ begin
 		end if;
 	end process;
 
-	memory : process (clock,EN,write)
+	memory : process (clock,EN,write_en)
 	begin
 		if (rising_edge(clock)) then
-		  if (EN='1' and write='1') then
+		  if (EN='1' and write_en='1') then
 			RW(to_integer(unsigned(address))) <= data_in;
-		elsif (EN='1' and write='0') then
+		elsif (EN='1' and write_en='0') then
 			data_out <= RW(to_integer(unsigned(address)));
 		  end if;
 	end if;

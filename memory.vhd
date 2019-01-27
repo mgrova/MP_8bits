@@ -8,7 +8,7 @@ port (
 	-- Conections with cpu
         address: in std_logic_vector(7 downto 0);
         data_in: in std_logic_vector(7 downto 0);
-        write: in std_logic;
+        write_en: in std_logic;
         data_out: out std_logic_vector(7 downto 0);
 
         clock,reset: in std_logic;
@@ -53,7 +53,7 @@ architecture Behavioral of memory is
 	-- Memory program (128 bytes)
 	component rom_128x8_sync
 	port (
-		address: in std_logic_vector(6 downto 0);
+		address: in std_logic_vector(7 downto 0);
 		data_out: out std_logic_vector(7 downto 0);
 		clock: in std_logic
 	      );
@@ -61,9 +61,9 @@ architecture Behavioral of memory is
 	-- Data Memory (96 bytes)
 	component rw_96x8_sync
 	port(
-		address: in std_logic_vector(6 downto 0);
+		address: in std_logic_vector(7 downto 0);
 		data_in: in std_logic_vector(7 downto 0);
-		write: in std_logic;
+		write_en: in std_logic;
 		clock: in std_logic;
 		data_out: out std_logic_vector(7 downto 0)
 	);  
@@ -73,7 +73,7 @@ architecture Behavioral of memory is
 	port (
 		address: in std_logic_vector(3 downto 0);
 		data_in: in std_logic_vector(7 downto 0);
-		write: in std_logic;
+		write_en: in std_logic;
 		clock: in std_logic;
 		reset: in std_logic;
 		port_out_00: out std_logic_vector(7 downto 0);
@@ -94,40 +94,68 @@ architecture Behavioral of memory is
 		port_out_15: out std_logic_vector(7 downto 0)
 	      );
 	end component Output_Ports;
+	
+		-- mux
+	component mux_out
+	port (
+			data_out: out std_logic_vector(7 downto 0);
+	      rom_out: in std_logic_vector(7 downto 0);
+			ram_out: in std_logic_vector(7 downto 0);
+			address: in std_logic_vector(7 downto 0);
+			port_in_00: in std_logic_vector(7 downto 0);
+			port_in_01: in std_logic_vector(7 downto 0);
+      	port_in_02: in std_logic_vector(7 downto 0);
+      	port_in_03: in std_logic_vector(7 downto 0);
+      	port_in_04: in std_logic_vector(7 downto 0);
+      	port_in_05: in std_logic_vector(7 downto 0);
+      	port_in_06: in std_logic_vector(7 downto 0);
+      	port_in_07: in std_logic_vector(7 downto 0);
+      	port_in_08: in std_logic_vector(7 downto 0);
+      	port_in_09: in std_logic_vector(7 downto 0);
+      	port_in_10: in std_logic_vector(7 downto 0);
+      	port_in_11: in std_logic_vector(7 downto 0);
+      	port_in_12: in std_logic_vector(7 downto 0);
+      	port_in_13: in std_logic_vector(7 downto 0);
+      	port_in_14: in std_logic_vector(7 downto 0);
+      	port_in_15: in std_logic_vector(7 downto 0)
+	      );
+	end component mux_out;
 
 
-	signal rom_out,ram_out:std_logic_vector(7 downto 0);
+	signal rom_out_s,ram_out_s:std_logic_vector(7 downto 0);
 	signal output_port_addr: std_logic_vector(3 downto 0);
-	signal ram_address,rom_address: std_logic_vector(6 downto 0);
+	signal ram_address,rom_address,mux_address: std_logic_vector(7 downto 0);
 	begin
-	      ram_address <= address(6 downto 0) when (address(7)= '1') else
-						      "0000000";
-	      rom_address <= address(6 downto 0) when (address(7)= '0') else
-						      "0000000";
-	      output_port_addr <= address(3 downto 0) when (address(7 downto 4)= x"E") else
-						      "0000";
+		mux_address <= address;
+	
+       ram_address <= address(7 downto 0) when (address(7)= '1') else  
+                                "00000000";  
+       rom_address <= address(7 downto 0) when (address(7)='0') else  
+                                "00000000";  
+       output_port_addr <= address(3 downto 0) when (address(7 downto 4)= x"E") else  
+                                "0000"; 
 
 	      rom_128x8_sync_u: rom_128x8_sync port map
 		             (
 		                  address  => rom_address,
 		                  clock    => clock,
-		                  data_out => rom_out
+		                  data_out => rom_out_s
 		             );
 
 	      rw_96x8_sync_u: rw_96x8_sync port map
 		             (
 		                  address    => ram_address,
 		                  data_in    => data_in,
-		                  write      => write,
+		                  write_en      => write_en,
 		                  clock      => clock,
-		                  data_out   => ram_out
+		                  data_out   => ram_out_s
 		             );
 
-	      Output_Ports_u: Output_Ports port map
+	      Output_Ports_u: output_Ports port map
 		             (
 		                  address     => output_port_addr,
 		                  data_in     => data_in,
-		                  write       => write,
+		                  write_en       => write_en,
 		                  clock       => clock,
 		                  reset       => reset,
 		                  port_out_00 => port_out_00,
@@ -148,24 +176,29 @@ architecture Behavioral of memory is
 		                  port_out_15 => port_out_15
 		             );
 
-	      --- Multiplexer Output for manage input ports
-	      data_out <= rom_out when address < x"80" else
-		          ram_out when address < x"E0" else
-		       port_in_00 when address = x"F0" else
-		       port_in_01 when address = x"F1" else
-		       port_in_02 when address = x"F2" else
-		       port_in_03 when address = x"F3" else
-		       port_in_04 when address = x"F4" else
-		       port_in_05 when address = x"F5" else
-		       port_in_06 when address = x"F6" else
-		       port_in_07 when address = x"F7" else
-		       port_in_08 when address = x"F8" else
-		       port_in_09 when address = x"F9" else
-		       port_in_10 when address = x"FA" else
-		       port_in_11 when address = x"FB" else
-		       port_in_12 when address = x"FC" else
-		       port_in_13 when address = x"FD" else
-		       port_in_14 when address = x"FE" else
-		       port_in_15 when address = x"FF" else
-		                  x"00";
+	      -- Multiplexer Output for manage input ports
+			mux_out_u: mux_out port map
+		          (
+			data_out => data_out,
+	      rom_out => rom_out_s,
+			ram_out => ram_out_s,
+			address => mux_address,
+			port_in_00 => port_in_00,
+			port_in_01 => port_in_01,
+      	port_in_02 => port_in_02,
+      	port_in_03 => port_in_03,
+      	port_in_04 => port_in_04,
+      	port_in_05 => port_in_05,
+      	port_in_06 => port_in_06,
+      	port_in_07 => port_in_07,
+      	port_in_08 => port_in_08,
+      	port_in_09 => port_in_09,
+      	port_in_10 => port_in_10,
+      	port_in_11 => port_in_11,
+      	port_in_12 => port_in_12,
+      	port_in_13 => port_in_13,
+      	port_in_14 => port_in_14,
+      	port_in_15 => port_in_15
+					             );
+			
  end Behavioral;

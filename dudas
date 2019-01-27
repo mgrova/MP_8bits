@@ -1,0 +1,2 @@
+optimizacion de output_ports.vhd creando un unico proceso con un case por ejemplo (?)
+Conexionado de las entradas y salidas del micro a salidas reales. ¿ es NECESARIO o OPCIONAL ?

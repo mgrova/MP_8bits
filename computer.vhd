@@ -47,7 +47,7 @@ architecture Behavioral of computer is
  component cpu   
  port(  
         clock, reset: in std_logic;  
-	address: out std_logic_vector(7 downto 0);  
+	     address: out std_logic_vector(7 downto 0);  
         from_memory: in std_logic_vector(7 downto 0);  
         write: out std_logic;  
         to_memory: out std_logic_vector(7 downto 0)  
@@ -113,7 +113,7 @@ architecture Behavioral of computer is
  );  
 
  -- memory  
- memory_unit: memory port map  
+ memory_unit_u: memory port map  
  (  
         clock    => clock,  
         reset    => reset,  

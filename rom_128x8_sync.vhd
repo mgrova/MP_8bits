@@ -5,7 +5,7 @@ use IEEE.NUMERIC_STD.all;
 -- Submodule VHDL code: ROM
 entity rom_128x8_sync is
 port(
-	address: in std_logic_vector(6 downto 0);
+	address: in std_logic_vector(7 downto 0);
 	data_out: out std_logic_vector(7 downto 0);
 	clock: in std_logic
 );
