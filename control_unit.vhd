@@ -46,8 +46,11 @@ begin
 	  
       -- FSM Implementation
       process(current_state,IR,CCR_Result,LOAD_STORE_OP,DATA_MAN_OP,BRANCH_OP)  
-      begin  
-	IR_Load <= '0';  
+      begin
+		 -- Avoid latches
+		 next_state<=current_state;
+		 -- Signals inicialization
+		  IR_Load <= '0';  
         MAR_Load <= '0';  
         PC_Load <= '0';  
         PC_Inc <= '0';  
