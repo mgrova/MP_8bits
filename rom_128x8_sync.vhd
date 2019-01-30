@@ -40,15 +40,29 @@ constant BVC    : std_logic_vector (7 downto 0) := x"26";
 constant BCS    : std_logic_vector (7 downto 0) := x"27";
 constant BCC    : std_logic_vector (7 downto 0) := x"28";
 
--- The program  perform a load, store, and a branch always.
--- This program will continually write x”AA” to port_out_00:
+
 type rom_type is array (0 to 127) of std_logic_vector(7 downto 0);
-constant ROM : rom_type := (0=> LDA_IMM,
-			    1=> x"AA",
-			    2=> STA_DIR,
-			    3=> x"E0",
-			    4=> BRA,
-			    5=> x"00",
+-- The program  perform a load, store, and a branch always.
+
+-- This program will continually write x”AA” to port_out_00:
+--constant ROM : rom_type := (0=> LDA_IMM,
+--			    1=> x"AA",
+--			    2=> STA_DIR,
+--			    3=> x"E0",
+--			    4=> BRA,
+--			    5=> x"00",
+--			    others => x"00");
+
+-- This program will continually write read port_in_00 and put it in regA, read port_in_01 and put the value in the regB and put the sum in port_out_00
+constant ROM : rom_type := (0=> LDA_DIR,
+			    1=> x"F0",
+			    2=> LDB_DIR,
+			    3=> x"F1",
+			    4=> ADD_AB, -- Put the result in regA
+			    5=> STA_DIR,
+			    6=> x"E0",
+				 7=> BRA,
+				 8=> x"00",
 			    others => x"00");
 
 signal EN: std_logic;
