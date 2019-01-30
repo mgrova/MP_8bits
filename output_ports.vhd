@@ -5,7 +5,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 -- Each port is modeled with its own process. The following VHDL shows how the output ports at
 entity output_ports is
   port (
-    address: in std_logic_vector(3 downto 0);
+    address: in std_logic_vector(7 downto 0);
     data_in: in std_logic_vector(7 downto 0);
     write_en: in std_logic;
     clock: in std_logic;

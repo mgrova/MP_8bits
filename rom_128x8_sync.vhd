@@ -51,8 +51,6 @@ constant ROM : rom_type := (0=> LDA_IMM,
 			    5=> x"00",
 			    others => x"00");
 
-
--- FALTA DECLARAR LAS SEÑALES INTERNAS !!
 signal EN: std_logic;
 
 begin

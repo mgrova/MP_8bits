@@ -49,7 +49,7 @@ architecture Behavioral of computer is
         clock, reset: in std_logic;  
 	     address: out std_logic_vector(7 downto 0);  
         from_memory: in std_logic_vector(7 downto 0);  
-        write: out std_logic;  
+        write_en: out std_logic;  
         to_memory: out std_logic_vector(7 downto 0)  
       );  
  end component cpu; 
@@ -60,7 +60,7 @@ architecture Behavioral of computer is
         address: in std_logic_vector(7 downto 0);  
         data_in: in std_logic_vector(7 downto 0);  
         data_out: out std_logic_vector(7 downto 0);
-        write: in std_logic;  
+        write_en: in std_logic;  
         port_in_00: in std_logic_vector(7 downto 0);   
         port_in_01: in std_logic_vector(7 downto 0);  
         port_in_02: in std_logic_vector(7 downto 0);    
@@ -97,17 +97,17 @@ architecture Behavioral of computer is
       );  
  end component memory;
   
- signal address,data_in,data_out: std_logic_vector(7 downto 0);    
- signal write: std_logic;  
+ signal address_s,data_in,data_out: std_logic_vector(7 downto 0);    
+ signal write_en_s: std_logic;  
 
  begin  
- --- cpu  
+  --- cpu  
  cpu_u: cpu port map  
  (  
         clock => clock,  
         reset => reset,  
-        address => address,  
-        write => write,  
+        address => address_s,  
+        write_en => write_en_s,  
         to_memory => data_in,  
         from_memory => data_out  
  );  
@@ -150,9 +150,9 @@ architecture Behavioral of computer is
         port_in_14  => port_in_14,  
         port_in_15  => port_in_15,  
         data_out => data_out,  
-        address => address,  
+        address => address_s,  
         data_in => data_in,  
-        write => write  
+        write_en => write_en_s  
  );
   
  end Behavioral;  

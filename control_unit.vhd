@@ -17,7 +17,7 @@ port (
         CCR_Load: out std_logic;  
         Bus2_Sel: out std_logic_vector(1 downto 0);  
         Bus1_Sel: out std_logic_vector(1 downto 0);  
-        write: out std_logic  
+        write_en: out std_logic  
       );  
 end control_unit;  
 architecture Behavioral of control_unit is 
@@ -57,7 +57,7 @@ begin
         CCR_Load <= '0';  
         Bus2_Sel <= "00";  
         Bus1_Sel <= "00";  
-        write <= '0';  
+        write_en <= '0';  
         case(current_state) is  
     
 	   when S_FETCH_0 =>   
@@ -134,11 +134,11 @@ begin
                  B_Load <= '1';            
                  next_state <= S_FETCH_0;       
               elsif(IR=x"96") then  
-                 write <= '1';  
+                 write_en <= '1';  
                  Bus1_Sel <= "01";  
                  next_state <= S_FETCH_0;  
              elsif(IR=x"97") then  
-                 write <= '1';  
+                 write_en <= '1';  
                  Bus1_Sel <= "10";  
                  next_state <= S_FETCH_0;  
              end if;  

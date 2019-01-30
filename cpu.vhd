@@ -7,7 +7,7 @@ port(
 	clock, reset: in std_logic;  
         address: out std_logic_vector(7 downto 0);  
         from_memory: in std_logic_vector(7 downto 0);  
-        write: out std_logic;  
+        write_en: out std_logic;  
         to_memory: out std_logic_vector(7 downto 0)  
       );  
 end cpu;  
@@ -29,7 +29,7 @@ port (
         CCR_Load: out std_logic;  
         Bus2_Sel: out std_logic_vector(1 downto 0);  
         Bus1_Sel: out std_logic_vector(1 downto 0);  
-        write: out std_logic  
+        write_en: out std_logic  
       );  
 end component control_unit;  
 
@@ -87,7 +87,7 @@ control_unit_module: control_unit port map
         CCR_Load => CCR_Load,  
         Bus2_Sel => Bus2_Sel,  
         Bus1_Sel => Bus1_Sel,  
-        write => write  
+        write_en => write_en  
       );  
 
 -- data_path  

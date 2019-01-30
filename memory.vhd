@@ -71,7 +71,7 @@ architecture Behavioral of memory is
 	-- Outputs ports (16x8 bits)
 	component Output_Ports
 	port (
-		address: in std_logic_vector(3 downto 0);
+		address: in std_logic_vector(7 downto 0);
 		data_in: in std_logic_vector(7 downto 0);
 		write_en: in std_logic;
 		clock: in std_logic;
@@ -121,13 +121,16 @@ architecture Behavioral of memory is
 	      );
 	end component mux_out;
 
-
+	signal write_en_s:std_logic;
+	signal data_in_s: std_logic_vector(7 downto 0);
 	signal rom_out_s,ram_out_s:std_logic_vector(7 downto 0);
 	signal output_port_addr: std_logic_vector(3 downto 0);
 	signal ram_address,rom_address,mux_address: std_logic_vector(7 downto 0);
 	begin
 		mux_address <= address;
-	
+		data_in_s <= data_in;
+		write_en_s <= write_en;
+		
        ram_address <= address(7 downto 0) when (address(7)= '1') else  
                                 "00000000";  
        rom_address <= address(7 downto 0) when (address(7)='0') else  
@@ -137,25 +140,25 @@ architecture Behavioral of memory is
 
 	      rom_128x8_sync_u: rom_128x8_sync port map
 		             (
-		                  address  => rom_address,
+		                  address  => address,
 		                  clock    => clock,
 		                  data_out => rom_out_s
 		             );
 
 	      rw_96x8_sync_u: rw_96x8_sync port map
 		             (
-		                  address    => ram_address,
-		                  data_in    => data_in,
-		                  write_en      => write_en,
+		                  address    => address,
+		                  data_in    => data_in_s,
+		                  write_en   => write_en_s,
 		                  clock      => clock,
 		                  data_out   => ram_out_s
 		             );
 
 	      Output_Ports_u: output_Ports port map
 		             (
-		                  address     => output_port_addr,
-		                  data_in     => data_in,
-		                  write_en       => write_en,
+		                  address     => address,
+		                  data_in     => data_in_s,
+		                  write_en    => write_en_s,
 		                  clock       => clock,
 		                  reset       => reset,
 		                  port_out_00 => port_out_00,
@@ -179,26 +182,26 @@ architecture Behavioral of memory is
 	      -- Multiplexer Output for manage input ports
 			mux_out_u: mux_out port map
 		          (
-			data_out => data_out,
-	      rom_out => rom_out_s,
-			ram_out => ram_out_s,
-			address => mux_address,
-			port_in_00 => port_in_00,
-			port_in_01 => port_in_01,
-      	port_in_02 => port_in_02,
-      	port_in_03 => port_in_03,
-      	port_in_04 => port_in_04,
-      	port_in_05 => port_in_05,
-      	port_in_06 => port_in_06,
-      	port_in_07 => port_in_07,
-      	port_in_08 => port_in_08,
-      	port_in_09 => port_in_09,
-      	port_in_10 => port_in_10,
-      	port_in_11 => port_in_11,
-      	port_in_12 => port_in_12,
-      	port_in_13 => port_in_13,
-      	port_in_14 => port_in_14,
-      	port_in_15 => port_in_15
+					data_out => data_out,
+	      		rom_out => rom_out_s,
+					ram_out => ram_out_s,
+					address => mux_address,
+					port_in_00 => port_in_00,
+					port_in_01 => port_in_01,
+		      	port_in_02 => port_in_02,
+      			port_in_03 => port_in_03,
+		      	port_in_04 => port_in_04,
+      			port_in_05 => port_in_05,
+      			port_in_06 => port_in_06,
+      			port_in_07 => port_in_07,
+	      		port_in_08 => port_in_08,
+		      	port_in_09 => port_in_09,
+		      	port_in_10 => port_in_10,
+		      	port_in_11 => port_in_11,
+		      	port_in_12 => port_in_12,
+		      	port_in_13 => port_in_13,
+	      		port_in_14 => port_in_14,
+		      	port_in_15 => port_in_15
 					             );
 			
  end Behavioral;
