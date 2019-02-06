@@ -1,8 +1,8 @@
+-- ROM MEMORY
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.all;
 
--- Submodule VHDL code: ROM
 entity rom_128x8_sync is
 port(
 	address: in std_logic_vector(7 downto 0);
@@ -45,7 +45,7 @@ type rom_type is array (0 to 127) of std_logic_vector(7 downto 0);
 -- The program  perform a load, store, and a branch always.
 
 -- This program will continually write x”AA” to port_out_00:
---constant ROM : rom_type := (0=> LDA_IMM,
+-- constant ROM : rom_type := (0=> LDA_IMM,
 --			    1=> x"AA",
 --			    2=> STA_DIR,
 --			    3=> x"E0",
@@ -53,7 +53,8 @@ type rom_type is array (0 to 127) of std_logic_vector(7 downto 0);
 --			    5=> x"00",
 --			    others => x"00");
 
--- This program will continually write read port_in_00 and put it in regA, read port_in_01 and put the value in the regB and put the sum in port_out_00
+-- This program will continually write read port_in_00 and put it in regA, 
+-- read port_in_01 and put the value in the regB and put the sum in port_out_00
 constant ROM : rom_type := (0=> LDA_DIR,
 			    1=> x"F0",
 			    2=> LDB_DIR,
@@ -61,8 +62,8 @@ constant ROM : rom_type := (0=> LDA_DIR,
 			    4=> ADD_AB, -- Put the result in regA
 			    5=> STA_DIR,
 			    6=> x"E0",
-				 7=> BRA,
-				 8=> x"00",
+			    7=> BRA,
+			    8=> x"00",
 			    others => x"00");
 
 signal EN: std_logic;

@@ -1,9 +1,8 @@
+-- RAM MEMORY
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.all;
---
--- This code model the local enable and signal assignments for the R/W memory
---
+
 entity rw_96x8_sync is
 port(
 	address: in std_logic_vector(7 downto 0);

@@ -1,8 +1,7 @@
+-- MEMORY
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
------------------------------------------------------------------
------------- MEMORY SYSTEM for 8-BIT COMPUTER -------------------
------------------------------------------------------------------
+
 entity memory is
 port (
 	-- Conections with cpu
@@ -49,7 +48,7 @@ port (
       );
 end memory;
 
-architecture Behavioral of memory is
+architecture IMP of memory is
 	-- Memory program (128 bytes)
 	component rom_128x8_sync
 	port (
@@ -98,26 +97,26 @@ architecture Behavioral of memory is
 		-- mux
 	component mux_out
 	port (
-			data_out: out std_logic_vector(7 downto 0);
-	      rom_out: in std_logic_vector(7 downto 0);
-			ram_out: in std_logic_vector(7 downto 0);
-			address: in std_logic_vector(7 downto 0);
-			port_in_00: in std_logic_vector(7 downto 0);
-			port_in_01: in std_logic_vector(7 downto 0);
-      	port_in_02: in std_logic_vector(7 downto 0);
-      	port_in_03: in std_logic_vector(7 downto 0);
-      	port_in_04: in std_logic_vector(7 downto 0);
-      	port_in_05: in std_logic_vector(7 downto 0);
-      	port_in_06: in std_logic_vector(7 downto 0);
-      	port_in_07: in std_logic_vector(7 downto 0);
-      	port_in_08: in std_logic_vector(7 downto 0);
-      	port_in_09: in std_logic_vector(7 downto 0);
-      	port_in_10: in std_logic_vector(7 downto 0);
-      	port_in_11: in std_logic_vector(7 downto 0);
-      	port_in_12: in std_logic_vector(7 downto 0);
-      	port_in_13: in std_logic_vector(7 downto 0);
-      	port_in_14: in std_logic_vector(7 downto 0);
-      	port_in_15: in std_logic_vector(7 downto 0)
+		data_out: out std_logic_vector(7 downto 0);
+	        rom_out: in std_logic_vector(7 downto 0);
+		ram_out: in std_logic_vector(7 downto 0);
+		address: in std_logic_vector(7 downto 0);
+		port_in_00: in std_logic_vector(7 downto 0);
+		port_in_01: in std_logic_vector(7 downto 0);
+	      	port_in_02: in std_logic_vector(7 downto 0);
+	      	port_in_03: in std_logic_vector(7 downto 0);
+	      	port_in_04: in std_logic_vector(7 downto 0);
+	      	port_in_05: in std_logic_vector(7 downto 0);
+	      	port_in_06: in std_logic_vector(7 downto 0);
+	      	port_in_07: in std_logic_vector(7 downto 0);
+	      	port_in_08: in std_logic_vector(7 downto 0);
+	      	port_in_09: in std_logic_vector(7 downto 0);
+	      	port_in_10: in std_logic_vector(7 downto 0);
+	      	port_in_11: in std_logic_vector(7 downto 0);
+	      	port_in_12: in std_logic_vector(7 downto 0);
+	      	port_in_13: in std_logic_vector(7 downto 0);
+	      	port_in_14: in std_logic_vector(7 downto 0);
+	      	port_in_15: in std_logic_vector(7 downto 0)
 	      );
 	end component mux_out;
 
@@ -130,13 +129,6 @@ architecture Behavioral of memory is
 		mux_address <= address;
 		data_in_s <= data_in;
 		write_en_s <= write_en;
-		
-       ram_address <= address(7 downto 0) when (address(7)= '1') else  
-                                "00000000";  
-       rom_address <= address(7 downto 0) when (address(7)='0') else  
-                                "00000000";  
-       output_port_addr <= address(3 downto 0) when (address(7 downto 4)= x"E") else  
-                                "0000"; 
 
 	      rom_128x8_sync_u: rom_128x8_sync port map
 		             (
@@ -154,6 +146,9 @@ architecture Behavioral of memory is
 		                  data_out   => ram_out_s
 		             );
 
+	      -- Connected port_out_01 to a constant value to verification 
+	      port_out_01<=x"A5";
+
 	      Output_Ports_u: output_Ports port map
 		             (
 		                  address     => address,
@@ -162,7 +157,7 @@ architecture Behavioral of memory is
 		                  clock       => clock,
 		                  reset       => reset,
 		                  port_out_00 => port_out_00,
-		                  port_out_01 => port_out_01,
+		                  port_out_01 => open,		--port_out_01,
 		                  port_out_02 => port_out_02,
 		                  port_out_03 => port_out_03,
 		                  port_out_04 => port_out_04,
@@ -204,4 +199,4 @@ architecture Behavioral of memory is
 		      	port_in_15 => port_in_15
 					             );
 			
- end Behavioral;
+ end IMP;

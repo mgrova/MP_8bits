@@ -1,8 +1,7 @@
-
-
+-- TOP OF DESIGN
 library IEEE;  
 use IEEE.STD_LOGIC_1164.ALL;  
---- Top level VHDL code for the microcontroller  
+ 
 entity computer is  
 port(  
       clock,reset: in std_logic;  
@@ -42,12 +41,12 @@ port(
     );  
 end computer;  
 
-architecture Behavioral of computer is  
+architecture IMP of computer is  
  
  component cpu   
  port(  
         clock, reset: in std_logic;  
-	     address: out std_logic_vector(7 downto 0);  
+	address: out std_logic_vector(7 downto 0);  
         from_memory: in std_logic_vector(7 downto 0);  
         write_en: out std_logic;  
         to_memory: out std_logic_vector(7 downto 0)  
@@ -155,5 +154,5 @@ architecture Behavioral of computer is
         write_en => write_en_s  
  );
   
- end Behavioral;  
+ end IMP;  
 

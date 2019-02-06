@@ -1,12 +1,9 @@
-
--- Submodule VHDL code for the data path of the microcontroller
+-- DATA PATH
 library IEEE;  
 use IEEE.STD_LOGIC_1164.ALL;  
 USE ieee.std_logic_arith.all;  
 USE ieee.std_logic_unsigned.all;  
--------------------------  
--- data_path  
--------------------------  
+ 
 entity data_path is  
 port (     
 	clock,reset: in std_logic;  
@@ -48,7 +45,7 @@ begin
   -- Instruction Register  
   INSTRUCTION_REGISTER: process(clock,reset)  
   begin  
-  	if(reset='0') then  
+  	if(reset='1') then  
     	   IR_Reg <= x"00";  
         elsif(rising_edge(clock)) then  
           if(IR_Load='1') then  
@@ -61,7 +58,7 @@ begin
   -- MAR Register  
   MEMORY_ADDRESS_REGISTER: process(clock,reset)  
   begin  
-  	if(reset='0') then  
+  	if(reset='1') then  
            MAR <= x"00";  
         elsif(rising_edge(clock)) then  
           if(MAR_Load='1') then  
@@ -74,7 +71,7 @@ begin
    -- PC  
    PROGRAM_COUNTER: process(clock,reset)  
    begin  
-   	if(reset='0') then  
+   	if(reset='1') then  
            PC <= x"00";  
         elsif(rising_edge(clock)) then  
           if(PC_Load='1') then  
@@ -88,7 +85,7 @@ begin
    -- A register  
    B_REGISTER: process(clock,reset)  
    begin  
-   	if(reset='0') then  
+   	if(reset='1') then  
            A_Reg <= x"00";  
 	-- rising edge
         elsif(rising_edge(clock)) then  
@@ -100,7 +97,7 @@ begin
     -- B register  
     A_REGISTER: process(clock,reset)  
     begin  
-           if(reset='0') then  
+           if(reset='1') then  
                 B_Reg <= x"00";  
            elsif(rising_edge(clock)) then  
                 if(B_Load='1') then  
@@ -122,7 +119,7 @@ begin
       --- CCR Register  
       CONDITIONAL_CODE_REGISTER: process(clock,reset)  
       begin  
-           if(reset='0') then  
+           if(reset='1') then  
               CCR <= x"0";  
            elsif(rising_edge(clock)) then  
              if(CCR_Load='1') then  

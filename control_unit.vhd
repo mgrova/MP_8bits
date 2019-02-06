@@ -1,7 +1,7 @@
- -- Submodule VHDL code for the control unit of the microcontroller
+ -- CONTROL UNIT 
 library IEEE;  
 use IEEE.STD_LOGIC_1164.ALL;  
--- control unit  
+
 entity control_unit is  
 port ( 
 	clock,reset: in std_logic;  
@@ -37,7 +37,7 @@ begin
       -- Syncro process to update nest state of fsm
       process(clock,reset)  
       begin  
-           if(reset='0') then  
+           if(reset='1') then  
                 current_state <= S_FETCH_0;  
            elsif(rising_edge(clock)) then  
                 current_state <= next_state;  

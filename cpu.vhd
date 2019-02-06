@@ -1,7 +1,7 @@
+-- CPU
 library IEEE;  
 use IEEE.STD_LOGIC_1164.ALL;  
-
--- CPU in VHDL  
+ 
 entity cpu is  
 port(  
 	clock, reset: in std_logic;  
@@ -12,7 +12,7 @@ port(
       );  
 end cpu;  
 
-architecture Behavioral of cpu is
+architecture IMP of cpu is
 
 component control_unit   
 port (  
@@ -111,4 +111,4 @@ data_path_u: data_path port map
         from_memory => from_memory,  
         to_memory => to_memory  
       );  
-end Behavioral;
+end IMP;

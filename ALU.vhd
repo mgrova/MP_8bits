@@ -1,10 +1,9 @@
+-- ALU
 library IEEE;  
 use IEEE.STD_LOGIC_1164.ALL;  
 USE ieee.std_logic_arith.all;  
 USE ieee.std_logic_unsigned.all; 
 
- 
--- Submodule VHDL code: ALU
 entity ALU is  
 port (  
 	A,B: in std_logic_vector(7 downto 0);  
