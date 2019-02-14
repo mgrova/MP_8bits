@@ -12,4 +12,9 @@ https://www.fpga4student.com/2016/12/a-complete-8-bit-microcontroller-in-vhdl.ht
    * 16x8-bit output ports
    * 16x8-bit input ports.
 
-## WORK IN PROGRESS...
+## IMPLEMENTATION OF MICROCONTROLLER
+Next, an image of the microcontroller implemented in the silicon will be shown:
+
+![Microcontroller in silicon](squematics/top_computer_open)
+
+
