@@ -13,9 +13,10 @@ https://www.fpga4student.com/2016/12/a-complete-8-bit-microcontroller-in-vhdl.ht
    * 16x8-bit input ports.
 
 ## IMPLEMENTATION OF MICROCONTROLLER
-Next, an image of the microcontroller implemented in the silicon will be shown:
+Next, an image of the microcontroller implemented in the silicon will be shown where we can see his components:
 
-![Microcontroller in silicon](squematics/top_computer_open.jpg)
+![Microcontroller in silicon](/squematics/top_computer_open.png)
 
+We can see the CPU and the memory of him.
 ## WAITING TO IMPLEMENT IT IN ICEBREAKER FPGA...
 https://github.com/icebreaker-fpga/icebreaker
